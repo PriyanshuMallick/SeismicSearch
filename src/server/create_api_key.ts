@@ -1,5 +1,5 @@
 import esClient from "./elasticsearch/client.js";
-import esConfig from "../config/default.js";
+import esConfig from "../config/envs.js";
 
 export default async function generateApiKeys(opts?) {
   const body = await esClient.security.createApiKey({

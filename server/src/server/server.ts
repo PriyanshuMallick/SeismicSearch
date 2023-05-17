@@ -1,5 +1,4 @@
 import express from "express";
-import { Client } from "@elastic/elasticsearch";
 import cors from "cors";
 
 import envs from "../config/envs.js";

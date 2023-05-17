@@ -2,11 +2,12 @@ import express from "express";
 import axios from "axios";
 import client from "../elasticsearch/client.js";
 import "log-timestamp";
+import envs from "../../config/envs.js";
 
 const router = express.Router();
 const URL = `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson`;
 
-router.get("/earthquakes", async function (req, res) {
+router.get(`/${envs.elastic.index}`, async function (req, res) {
   console.log("Loading Application...");
   res.json("Running Application...");
 
@@ -53,10 +54,10 @@ router.get("/earthquakes", async function (req, res) {
           depth: results.geometry.coordinates[2],
         };
         await client.index({
-          index: "earthquakes",
+          index: envs.elastic.index,
           id: results.id,
           body: earthquakeObject,
-          pipeline: "earthquake_data_pipeline",
+          pipeline: envs.elastic.pipline,
         });
       });
 

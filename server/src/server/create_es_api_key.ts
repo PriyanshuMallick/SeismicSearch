@@ -4,14 +4,20 @@ import esConfig from "../config/envs.js";
 export default async function generateApiKeys(opts?) {
   const body = await client.security.createApiKey({
     body: {
-      name: "earthquake_app",
+      name: "seismic_search_app",
       role_descriptors: {
         earthquakes_example_writer: {
           cluster: ["monitor"],
           index: [
             {
               names: [esConfig.elastic.index],
-              privileges: ["create_index", "write", "read", "manage"],
+              privileges: [
+                "create_index",
+                "write",
+                "read",
+                "manage",
+                "create_doc",
+              ],
             },
           ],
         },
@@ -21,9 +27,11 @@ export default async function generateApiKeys(opts?) {
   return Buffer.from(`${body.id}:${body.api_key}`).toString("base64");
 }
 
-// generateApiKeys()
-//   .then(console.log)
-//   .catch((err) => {
-//     console.error(err);
-//     process.exit(1);
-//   });
+export function runMeToCreateAndLogApikey() {
+  generateApiKeys()
+    .then(console.log)
+    .catch((err) => {
+      console.error(err);
+      process.exit(1);
+    });
+}

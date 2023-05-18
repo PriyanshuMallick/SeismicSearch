@@ -1,8 +1,8 @@
-import esClient from "./elasticsearch/client.js";
+import client from "./elasticsearch/client.js";
 import esConfig from "../config/envs.js";
 
 export default async function generateApiKeys(opts?) {
-  const body = await esClient.security.createApiKey({
+  const body = await client.security.createApiKey({
     body: {
       name: "earthquake_app",
       role_descriptors: {

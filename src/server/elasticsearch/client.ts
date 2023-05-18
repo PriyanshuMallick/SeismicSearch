@@ -1,11 +1,10 @@
 import { Client } from "@elastic/elasticsearch";
 import esConfig from "../../config/envs.js";
 
-const esClient = new Client({
+const client = new Client({
   node: esConfig.elastic.host,
   auth: {
-    username: esConfig.elastic.username,
-    password: esConfig.elastic.password,
+    apiKey: esConfig.elastic.apiKey,
   },
   caFingerprint: esConfig.elastic.ca,
   tls: {
@@ -17,9 +16,9 @@ export function test() {
   console.log("In client.js");
 }
 
-esClient
+client
   .ping()
   .then((res) => console.log("You are connected to ElasticSearch!"))
   .catch((error) => console.error("ElasticSearch is not connected.\n" + error));
 
-export default esClient;
+export default client;
